@@ -16,14 +16,27 @@ dotenv.config();
 connectDB();
 
 const app = express();
-const FRONTEND_URL = process.env.FRONTEND_URL || "http://localhost:5173";
+
+// Configure allowed origins from environment. Use `FRONTEND_URL` for
+// production and optionally `PREVIEW_FRONTEND_URL` for preview/staging.
+const allowedOrigins = [
+  process.env.FRONTEND_URL,
+  process.env.PREVIEW_FRONTEND_URL,
+].filter(Boolean);
+
 app.use(cors({
-  origin: FRONTEND_URL,
-  methods: ["GET", "POST", "PUT", "DELETE"],
-  credentials: true
+  origin: (origin, callback) => {
+    // Allow requests with no origin (e.g., curl, server-to-server)
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.includes(origin)) return callback(null, true);
+    // Not allowed
+    return callback(new Error('CORS origin denied'));
+  },
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  credentials: true,
 }));
 
-console.log('CORS allowed origin:', FRONTEND_URL);
+console.log('CORS allowed origins:', allowedOrigins.length ? allowedOrigins : 'none (will allow server-to-server requests only)');
 
 app.use(express.json());
 
