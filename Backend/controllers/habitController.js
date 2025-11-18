@@ -35,3 +35,17 @@ export const deleteHabit = async (req, res) => {
     res.status(500).json({ message: error.message })
   }
 }
+
+export const updateHabit = async (req, res) => {
+  try {
+    const { id } = req.params
+    const updates = req.body
+
+    const updated = await Habit.findByIdAndUpdate(id, updates, { new: true })
+    if (!updated) return res.status(404).json({ message: 'Habit not found' })
+
+    res.json(updated)
+  } catch (error) {
+    res.status(500).json({ message: error.message })
+  }
+}

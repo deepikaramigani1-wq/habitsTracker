@@ -14,8 +14,15 @@ export const createReminder = async (req, res) => {
 export const listReminders = async (req, res) => {
   try {
     const { userId } = req.params
+    // populate habit and return results with `habit` property to match frontend expectations
     const reminders = await Reminder.find({ userId }).populate('habitId', 'name')
-    res.json(reminders)
+    const mapped = reminders.map(r => {
+      const obj = r.toObject()
+      obj.habit = obj.habitId || null
+      // keep legacy field too
+      return obj
+    })
+    res.json(mapped)
   } catch (err) {
     res.status(500).json({ message: err.message })
   }

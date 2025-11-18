@@ -5,8 +5,11 @@ Write-Host "Starting Habit Tracker (local dev)..." -ForegroundColor Cyan
 # Start Backend
 Write-Host "Starting Backend (port 5000)..." -ForegroundColor Yellow
 $backendJob = Start-Job -ScriptBlock {
-    Set-Location "C:\Users\Administrator\HabitTracker\Backend"
-    & node server.js
+    # Use the script directory as the repo root so this works on different machines
+    $scriptRoot = if ($PSScriptRoot) { $PSScriptRoot } else { Split-Path -Parent $MyInvocation.MyCommand.Definition }
+    Set-Location (Join-Path $scriptRoot 'Backend')
+    # Use npm run dev to pick up nodemon when available
+    & npm run dev
 } -Name "HabitTracker-Backend"
 
 Start-Sleep -Seconds 3
@@ -15,7 +18,8 @@ Write-Host "Backend job started" -ForegroundColor Green
 # Start Frontend
 Write-Host "Starting Frontend (port 5173)..." -ForegroundColor Yellow
 $frontendJob = Start-Job -ScriptBlock {
-    Set-Location "C:\Users\Administrator\HabitTracker\frontend"
+    $scriptRoot = if ($PSScriptRoot) { $PSScriptRoot } else { Split-Path -Parent $MyInvocation.MyCommand.Definition }
+    Set-Location (Join-Path $scriptRoot 'frontend')
     & npm run dev
 } -Name "HabitTracker-Frontend"
 

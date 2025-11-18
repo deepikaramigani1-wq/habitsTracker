@@ -5,9 +5,33 @@ import dayjs from 'dayjs'
 
 export const createChallenge = async (req, res) => {
   try {
-    const payload = req.body
+    // Accept frontend-friendly fields and map to model shape
+    const { title, creator, createdBy, goalType, goalValue, description } = req.body
+
+    // Map incoming goalType values to model's enum
+    let mappedGoalType = goalType
+    if (!['streak', 'checkins', 'custom'].includes(mappedGoalType)) {
+      // frontend may send 'daily' or 'timesPerWeek' -> treat as checkins
+      if (mappedGoalType === 'daily' || mappedGoalType === 'timesPerWeek') mappedGoalType = 'checkins'
+      else mappedGoalType = 'streak'
+    }
+
+    const payload = {
+      title,
+      description,
+      createdBy: createdBy || creator,
+      goalType: mappedGoalType,
+      goalValue: goalValue || 7,
+      startsAt: req.body.startsAt || new Date(),
+      endsAt: req.body.endsAt || null,
+    }
+
     const c = await Challenge.create(payload)
-    res.json(c)
+    // populate creator name for immediate frontend use
+    const populated = await Challenge.findById(c._id).populate('createdBy', 'name')
+    const obj = populated.toObject()
+    obj.creatorName = obj.createdBy?.name || obj.createdBy
+    res.json(obj)
   } catch (err) {
     res.status(500).json({ message: err.message })
   }
@@ -29,8 +53,14 @@ export const joinChallenge = async (req, res) => {
 
 export const listChallenges = async (req, res) => {
   try {
-    const list = await Challenge.find().sort({ startsAt: -1 })
-    res.json(list)
+    // populate creator info for frontend display
+    const list = await Challenge.find().sort({ startsAt: -1 }).populate('createdBy', 'name')
+    const mapped = list.map(c => {
+      const obj = c.toObject()
+      obj.creatorName = obj.createdBy?.name || obj.createdBy
+      return obj
+    })
+    res.json(mapped)
   } catch (err) {
     res.status(500).json({ message: err.message })
   }

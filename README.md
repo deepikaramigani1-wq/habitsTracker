@@ -63,11 +63,11 @@ HabitTracker/
    npm install
    ```
 
-3. Create a `.env` file in `Backend/` with:
-   ```
-   MONGO_URI=mongodb+srv://<username>:<password>@cluster.mongodb.net/habitdb
-   PORT=5000
-   FRONTEND_URL=http://localhost:5173
+3. Copy the example env and fill in real values:
+   ```powershell
+   cd Backend
+   copy .env.example .env
+   # then edit Backend/.env to add your MongoDB credentials
    ```
 
 4. Start the server:
@@ -89,7 +89,7 @@ HabitTracker/
    npm install
    ```
 
-3. Create a `.env` file in `frontend/` with:
+3. Create a `.env` file in `frontend/` (or set VITE_API_URL in your environment) with:
    ```
    VITE_API_URL=http://localhost:5000/api
    ```

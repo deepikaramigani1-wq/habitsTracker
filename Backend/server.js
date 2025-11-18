@@ -6,6 +6,8 @@ import connectDB from "./config/db.js";
 import userRoutes from "./routes/userRoutes.js";
 import habitRoutes from "./routes/habitRoutes.js";
 import checkinRoutes from "./routes/checkinRoutes.js";
+import reminderRoutes from "./routes/reminderRoutes.js";
+import challengeRoutes from "./routes/challengeRoutes.js";
 
 console.log("Starting server...");
 
@@ -65,6 +67,8 @@ app.use((req, res, next) => {
 app.use("/api/users", userRoutes);
 app.use("/api/habits", habitRoutes);
 app.use("/api/checkins", checkinRoutes);
+app.use("/api/reminders", reminderRoutes);
+app.use("/api/challenges", challengeRoutes);
 
 // Fallback for unknown routes (Express 5)
 app.use((req, res) => {
