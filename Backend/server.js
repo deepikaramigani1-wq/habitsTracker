@@ -11,6 +11,7 @@ import challengeRoutes from "./routes/challengeRoutes.js";
 
 console.log("Starting server...");
 
+
 // Load .env
 dotenv.config();
 
@@ -22,9 +23,9 @@ const app = express();
 // Configure allowed origins from environment. Use `FRONTEND_URL` for
 // production and optionally `PREVIEW_FRONTEND_URL` for preview/staging.
 const allowedOrigins = [
-  process.env.FRONTEND_URL,
-  process.env.PREVIEW_FRONTEND_URL,
-].filter(Boolean);
+  ...(process.env.FRONTEND_URL ? process.env.FRONTEND_URL.split(',').map(url => url.trim()) : []),
+  ...(process.env.PREVIEW_FRONTEND_URL ? process.env.PREVIEW_FRONTEND_URL.split(',').map(url => url.trim()) : []),
+];
 
 // Request logging middleware (before CORS)
 app.use((req, res, next) => {
