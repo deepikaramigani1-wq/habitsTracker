@@ -19,7 +19,7 @@ export default function Signup({ onSignup }) {
   };
 
   return (
-    
+    <div className="flex items-center justify-center h-screen bg-gray-100">
       <form
         onSubmit={handleSubmit}
         className="w-full max-w-sm bg-white p-8 rounded-xl shadow-md"
@@ -59,7 +59,7 @@ export default function Signup({ onSignup }) {
           </div>
         )}
       </form>
-    
+    </div>
   );
 }
 
