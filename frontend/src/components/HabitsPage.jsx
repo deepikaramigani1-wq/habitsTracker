@@ -67,15 +67,6 @@ export default function HabitsPage() {
     }
   }
 
-  const handleUpdate = async (id, payload) => {
-    try {
-      await updateHabit(id, payload)
-      await load()
-    } catch (err) {
-      console.error('[HabitsPage] update error', err)
-    }
-  }
-
   if (loading) return <div className="text-center py-8">Loading habits...</div>
 
   return (
@@ -83,10 +74,25 @@ export default function HabitsPage() {
       <h1 className="text-3xl font-bold mb-4">Your Habits</h1>
 
       <form onSubmit={handleCreate} className="mb-6 bg-white p-4 rounded shadow grid grid-cols-1 md:grid-cols-4 gap-3 items-center">
-        <input value={name} onChange={e => setName(e.target.value)} placeholder="Habit name" required className="px-3 py-2 border rounded col-span-2" />
-        <input value={category} onChange={e => setCategory(e.target.value)} placeholder="Category (optional)" className="px-3 py-2 border rounded" />
+        <input
+          value={name}
+          onChange={e => setName(e.target.value)}
+          placeholder="Habit name"
+          required
+          className="px-3 py-2 border rounded col-span-2"
+        />
+        <input
+          value={category}
+          onChange={e => setCategory(e.target.value)}
+          placeholder="Category (optional)"
+          className="px-3 py-2 border rounded"
+        />
         <div className="flex justify-end">
-          <button type="submit" disabled={creating} className="px-4 py-2 bg-green-600 text-white rounded">
+          <button
+            type="submit"
+            disabled={creating}
+            className="px-4 py-2 bg-green-600 text-white rounded"
+          >
             {creating ? 'Creating...' : 'Create Habit'}
           </button>
         </div>
@@ -95,7 +101,12 @@ export default function HabitsPage() {
       <div className="grid gap-4 md:grid-cols-2">
         {habits.length === 0 && <div className="text-center text-slate-500">No habits yet — create one above.</div>}
         {habits.map(h => (
-          <HabitCard key={h._id} habit={h} onDeleted={() => handleDelete(h._id)} onUpdated={() => handleUpdate(h._id, {})} />
+          <HabitCard
+            key={h._id}
+            habit={h}
+            onDeleted={() => handleDelete(h._id)}
+            onUpdated={() => load()} // reload habits on update
+          />
         ))}
       </div>
     </div>
