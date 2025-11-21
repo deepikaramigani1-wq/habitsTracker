@@ -65,6 +65,8 @@ app.use((req, res, next) => {
 });
 
 // API Routes
+import authRoutes from "./routes/authRoutes.js";
+app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/habits", habitRoutes);
 app.use("/api/checkins", checkinRoutes);

@@ -11,7 +11,11 @@ const API = axios.create({
 API.interceptors.request.use((config) => {
 	// eslint-disable-next-line no-console
 	console.debug('[api] request', config.method, config.url)
-	return config
+	const token = localStorage.getItem('token');
+	if (token) {
+		config.headers.Authorization = `Bearer ${token}`;
+	}
+	return config;
 })
 
 API.interceptors.response.use(
