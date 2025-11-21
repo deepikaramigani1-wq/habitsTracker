@@ -9,6 +9,7 @@ import ChallengesPage from "./components/ChallengesPage";
 import Login from "./components/Login";
 import Signup from "./components/Signup";
 import HabitCard from "./components/HabitCard";
+import HabitsPage from "./components/HabitsPage";
 
 const HabitsPageWrapper = () => {
   const exampleHabit = {
@@ -54,8 +55,8 @@ const AppWrapper = () => {
   const isAuthenticated = !!localStorage.getItem("token");
 
   const handleLogout = () => {
-    localStorage.removeItem("token");  // clear token
-    navigate("/");                      // redirect to landing page
+    localStorage.removeItem("token"); // clear token
+    navigate("/"); // redirect to landing page
   };
 
   return (
@@ -64,9 +65,9 @@ const AppWrapper = () => {
 
       <Routes>
         <Route path="/" element={isAuthenticated ? <Navigate to="/habits" /> : <LandingPage />} />
-        <Route path="/login" element={isAuthenticated ? <Navigate to="/habits" /> : <Login />} />
-        <Route path="/signup" element={isAuthenticated ? <Navigate to="/habits" /> : <Signup />} />
-        <Route path="/habits" element={isAuthenticated ? <HabitsPageWrapper /> : <Navigate to="/login" />} />
+        <Route path="/login" element={isAuthenticated ? <Navigate to="/habits" /> : <Login onLogin={() => navigate('/habits')} />} />
+        <Route path="/signup" element={isAuthenticated ? <Navigate to="/habits" /> : <Signup onSignup={() => navigate('/habits')} />} />
+        <Route path="/habits" element={isAuthenticated ? <HabitsPage /> : <Navigate to="/login" />} />
         <Route path="/rewards" element={isAuthenticated ? <RewardsPage /> : <Navigate to="/login" />} />
         <Route path="/insights" element={isAuthenticated ? <Insights /> : <Navigate to="/login" />} />
         <Route path="/reminders" element={isAuthenticated ? <RemindersPage /> : <Navigate to="/login" />} />
