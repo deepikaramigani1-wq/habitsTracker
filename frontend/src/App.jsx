@@ -54,6 +54,21 @@ const AppWrapper = () => {
   const navigate = useNavigate();
   const isAuthenticated = !!localStorage.getItem("token");
 
+  // decode simple JWT payload to extract user id
+  const parseJwt = (token) => {
+    try {
+      const payload = token.split('.')[1]
+      const json = atob(payload.replace(/-/g, '+').replace(/_/g, '/'))
+      return JSON.parse(decodeURIComponent(escape(json)))
+    } catch (e) {
+      return null
+    }
+  }
+
+  const token = localStorage.getItem('token')
+  const currentUser = token ? parseJwt(token) : null
+  const userId = currentUser?.id || currentUser?._id || null
+
   const handleLogout = () => {
     localStorage.removeItem("token"); // clear token
     navigate("/"); // redirect to landing page
@@ -67,11 +82,11 @@ const AppWrapper = () => {
         <Route path="/" element={isAuthenticated ? <Navigate to="/habits" /> : <LandingPage />} />
         <Route path="/login" element={isAuthenticated ? <Navigate to="/habits" /> : <Login onLogin={() => navigate('/habits')} />} />
         <Route path="/signup" element={isAuthenticated ? <Navigate to="/habits" /> : <Signup onSignup={() => navigate('/habits')} />} />
-        <Route path="/habits" element={isAuthenticated ? <HabitsPage /> : <Navigate to="/login" />} />
-        <Route path="/rewards" element={isAuthenticated ? <RewardsPage /> : <Navigate to="/login" />} />
-        <Route path="/insights" element={isAuthenticated ? <Insights /> : <Navigate to="/login" />} />
-        <Route path="/reminders" element={isAuthenticated ? <RemindersPage /> : <Navigate to="/login" />} />
-        <Route path="/challenges" element={isAuthenticated ? <ChallengesPage /> : <Navigate to="/login" />} />
+        <Route path="/habits" element={isAuthenticated ? <HabitsPage userId={userId} /> : <Navigate to="/login" />} />
+        <Route path="/rewards" element={isAuthenticated ? <RewardsPage userId={userId} /> : <Navigate to="/login" />} />
+        <Route path="/insights" element={isAuthenticated ? <Insights userId={userId} /> : <Navigate to="/login" />} />
+        <Route path="/reminders" element={isAuthenticated ? <RemindersPage userId={userId} /> : <Navigate to="/login" />} />
+        <Route path="/challenges" element={isAuthenticated ? <ChallengesPage userId={userId} /> : <Navigate to="/login" />} />
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </>

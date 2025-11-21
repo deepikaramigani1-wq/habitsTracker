@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react'
-import { fetchReminders, createReminder, deleteReminder } from '../api'
+import { fetchReminders, createReminder, deleteReminder, fetchHabits } from '../api'
 
-export default function RemindersPage({ userId, habits = [] }) {
+export default function RemindersPage({ userId, habits: initialHabits = [] }) {
   const [reminders, setReminders] = useState([])
   const [time, setTime] = useState('08:00')
   const [enabled, setEnabled] = useState(true)
   const [habitId, setHabitId] = useState('')
+  const [habits, setHabits] = useState(initialHabits)
 
   const load = async () => {
     try {
@@ -17,6 +18,20 @@ export default function RemindersPage({ userId, habits = [] }) {
   }
 
   useEffect(() => { if (userId) load() }, [userId])
+
+  // If no habits provided, fetch them for the user so select shows options
+  useEffect(() => {
+    const loadHabits = async () => {
+      try {
+        const res = await fetchHabits(userId)
+        setHabits(res.data || [])
+      } catch (err) {
+        console.error('[RemindersPage] loadHabits', err)
+      }
+    }
+    if (userId && (!initialHabits || initialHabits.length === 0)) loadHabits()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [userId])
 
   const handleCreate = async (e) => {
     e.preventDefault()
