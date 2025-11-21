@@ -19,17 +19,14 @@ export default function Login({ onLogin }) {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-purple-600 to-blue-500 p-4">
+    <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4">
       <form
         onSubmit={handleSubmit}
-        className="w-full max-w-sm bg-white/90 backdrop-blur-md rounded-xl shadow-xl p-6 md:p-8"
+        className="w-full max-w-sm bg-white p-8 rounded-xl shadow-md"
       >
-        <h2 className="text-3xl font-bold text-gray-800 text-center">
-          Welcome Back 👋
+        <h2 className="text-2xl font-bold text-center mb-6 text-gray-800">
+          Login
         </h2>
-        <p className="text-gray-500 text-center mt-1 mb-6">
-          Login to continue
-        </p>
 
         <input
           type="text"
@@ -37,7 +34,7 @@ export default function Login({ onLogin }) {
           value={username}
           onChange={(e) => setUsername(e.target.value)}
           required
-          className="w-full px-4 py-3 mb-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+          className="w-full mb-4 px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-400 outline-none"
         />
 
         <input
@@ -46,18 +43,18 @@ export default function Login({ onLogin }) {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
-          className="w-full px-4 py-3 mb-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+          className="w-full mb-4 px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-400 outline-none"
         />
 
         <button
           type="submit"
-          className="w-full bg-blue-600 text-white font-semibold py-3 rounded-lg shadow-md hover:bg-blue-700 transition-all duration-200"
+          className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition font-semibold"
         >
           Login
         </button>
 
         {error && (
-          <div className="text-red-600 text-sm text-center font-semibold mt-3">
+          <div className="mt-4 text-center text-red-600 font-medium">
             {error}
           </div>
         )}
@@ -65,4 +62,5 @@ export default function Login({ onLogin }) {
     </div>
   );
 }
+
 

@@ -19,24 +19,47 @@ export default function Signup({ onSignup }) {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <h2>Sign Up</h2>
-      <input
-        type="text"
-        placeholder="Username"
-        value={username}
-        onChange={e => setUsername(e.target.value)}
-        required
-      />
-      <input
-        type="password"
-        placeholder="Password"
-        value={password}
-        onChange={e => setPassword(e.target.value)}
-        required
-      />
-      <button type="submit">Sign Up</button>
-      {error && <div style={{color: "red"}}>{error}</div>}
-    </form>
+    <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4">
+      <form
+        onSubmit={handleSubmit}
+        className="w-full max-w-sm bg-white p-8 rounded-xl shadow-md"
+      >
+        <h2 className="text-2xl font-bold text-center mb-6 text-gray-800">
+          Create Account
+        </h2>
+
+        <input
+          type="text"
+          placeholder="Enter username"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+          required
+          className="w-full mb-4 px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-400 outline-none"
+        />
+
+        <input
+          type="password"
+          placeholder="Enter password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
+          className="w-full mb-4 px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-400 outline-none"
+        />
+
+        <button
+          type="submit"
+          className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition font-semibold"
+        >
+          Sign Up
+        </button>
+
+        {error && (
+          <div className="mt-4 text-center text-red-600 font-medium">
+            {error}
+          </div>
+        )}
+      </form>
+    </div>
   );
 }
+
