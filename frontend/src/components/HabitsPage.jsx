@@ -82,10 +82,10 @@ export default function HabitsPage() {
     <div className="max-w-4xl mx-auto p-4">
       <h1 className="text-3xl font-bold mb-4">Your Habits</h1>
 
-      <form onSubmit={handleCreate} className="mb-6 grid grid-cols-1 md:grid-cols-3 gap-2">
-        <input value={name} onChange={e => setName(e.target.value)} placeholder="Habit name" required className="px-3 py-2 border rounded" />
+      <form onSubmit={handleCreate} className="mb-6 bg-white p-4 rounded shadow grid grid-cols-1 md:grid-cols-4 gap-3 items-center">
+        <input value={name} onChange={e => setName(e.target.value)} placeholder="Habit name" required className="px-3 py-2 border rounded col-span-2" />
         <input value={category} onChange={e => setCategory(e.target.value)} placeholder="Category (optional)" className="px-3 py-2 border rounded" />
-        <div className="flex gap-2">
+        <div className="flex justify-end">
           <button type="submit" disabled={creating} className="px-4 py-2 bg-green-600 text-white rounded">
             {creating ? 'Creating...' : 'Create Habit'}
           </button>
@@ -95,9 +95,7 @@ export default function HabitsPage() {
       <div className="grid gap-4 md:grid-cols-2">
         {habits.length === 0 && <div className="text-center text-slate-500">No habits yet — create one above.</div>}
         {habits.map(h => (
-          <div key={h._id} className="bg-white border rounded p-3 shadow-sm">
-            <HabitCard habit={h} onDeleted={() => handleDelete(h._id)} onUpdated={() => handleUpdate(h._id, {})} />
-          </div>
+          <HabitCard key={h._id} habit={h} onDeleted={() => handleDelete(h._id)} onUpdated={() => handleUpdate(h._id, {})} />
         ))}
       </div>
     </div>

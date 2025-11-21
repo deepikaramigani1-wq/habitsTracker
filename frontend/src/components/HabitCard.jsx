@@ -68,7 +68,7 @@ export default function HabitCard({ habit, onDeleted, onUpdated }) {
   const created = dayjs(habit.startDate).format("MMM D")
 
   return (
-    <div className="card flex items-center justify-between gap-4 p-4 rounded-xl shadow bg-white">
+    <div className="card flex flex-col md:flex-row items-start md:items-center justify-between gap-4 p-4 rounded-xl shadow bg-white hover:shadow-md transition">
       <div>
         {!editing ? (
           <>
@@ -103,13 +103,13 @@ export default function HabitCard({ habit, onDeleted, onUpdated }) {
         )}
       </div>
 
-      <div className="flex flex-col items-end gap-2">
+      <div className="flex flex-row md:flex-col items-end md:items-center gap-2 ml-auto">
         {!editing ? (
           <>
             <button
               onClick={handleCheck}
               disabled={done}
-              className={`px-4 py-2 rounded-lg font-semibold shadow-sm transition active:scale-95 ${done ? 'bg-slate-200 text-slate-500 cursor-default' : 'bg-sky-300'}`}
+              className={px-4 py-2 rounded-lg font-semibold shadow-sm transition active:scale-95 ${done ? 'bg-slate-200 text-slate-500 cursor-default' : 'bg-sky-600 text-white hover:bg-sky-700'}}
             >
               {done ? 'Done ✓' : '✓ Done'}
             </button>
@@ -119,7 +119,7 @@ export default function HabitCard({ habit, onDeleted, onUpdated }) {
               <button
                 onClick={handleDelete}
                 disabled={deleting}
-                className={`text-sm ${deleting ? 'text-slate-400' : 'text-slate-500 hover:text-red-500'}`}
+                className={text-sm ${deleting ? 'text-slate-400' : 'text-slate-500 hover:text-red-500'}}
               >
                 {deleting ? 'Deleting...' : 'Delete'}
               </button>
