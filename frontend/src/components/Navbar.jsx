@@ -1,6 +1,14 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
-export default function Navbar() {
+export default function Navbar({ onLogout }) {
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    if (onLogout) return onLogout();
+    localStorage.removeItem("token");
+    navigate("/");
+  };
+
   return (
     <div className="flex gap-2 mb-6 justify-center">
       <Link to="/habits" className="px-4 py-2 bg-sky-500 text-white rounded">📋 Habits</Link>
@@ -10,14 +18,11 @@ export default function Navbar() {
       <Link to="/challenges" className="px-4 py-2 bg-rose-500 text-white rounded">🏁 Challenges</Link>
 
       <button
-        onClick={() => {
-          localStorage.removeItem("token");
-          window.location.href = "/login";
-        }}
+        onClick={handleLogout}
         className="px-4 py-2 bg-red-500 text-white rounded"
       >
         Logout
       </button>
-    </div>
-  );
+    </div>
+  );
 }

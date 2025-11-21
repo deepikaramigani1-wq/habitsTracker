@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter, Routes, Route, Navigate, useNavigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate, useNavigate, Link } from "react-router-dom";
 
 import Navbar from "./components/Navbar";
 import RewardsPage from "./components/RewardsPage";
@@ -37,12 +37,12 @@ const LandingPage = () => {
       <h1 className="text-4xl font-bold">Welcome to Habit Tracker</h1>
       <p className="text-gray-600">Please sign in or sign up to continue</p>
       <div className="space-x-4">
-        <a href="/login" className="bg-blue-500 text-white px-6 py-3 rounded hover:bg-blue-600">
+        <Link to="/login" className="bg-blue-500 text-white px-6 py-3 rounded hover:bg-blue-600">
           Sign In
-        </a>
-        <a href="/signup" className="bg-green-500 text-white px-6 py-3 rounded hover:bg-green-600">
+        </Link>
+        <Link to="/signup" className="bg-green-500 text-white px-6 py-3 rounded hover:bg-green-600">
           Sign Up
-        </a>
+        </Link>
       </div>
     </div>
   );
