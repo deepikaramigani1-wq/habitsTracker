@@ -105,7 +105,7 @@ export default function App() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-blue-50 to-blue-100 flex justify-center">
+    <div className="p-6 max-w-3xl mx-auto">
       <h1 className="text-3xl font-bold mb-6 text-center">Habit Tracker</h1>
       <div className="flex gap-2 mb-6 justify-center">
         <button onClick={() => setPage('habits')} className={`px-4 py-2 rounded-lg font-semibold transition ${page === 'habits' ? 'bg-sky-500 text-white' : 'bg-slate-200 text-slate-700 hover:bg-slate-300'}`}>📋 Habits</button>
